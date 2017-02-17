@@ -37,6 +37,7 @@ def run_train(dataset, hps, logdir, ps_device, task=0, master=""):
     #                        intra_op_parallelism_threads=2,
     #                        inter_op_parallelism_threads=20)
     config = tf.ConfigProto(allow_soft_placement=True)
+    config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
     with sv.managed_session(master, config=config) as sess:
         # Slowly increase the number of workers during beginning of the training.
         #while not sv.should_stop() and (time.time() - stime) < hps.max_time:
